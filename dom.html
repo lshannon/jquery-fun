@@ -2,9 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
 </head>
 <body>
-$END$
+<p>Creating a list here:</p>
+<ol id="persons"></ol>
+
+<p>Creating a Select Here</p>
+<select id="personChoice"></select>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+    //this makes sure the document loads before jQuery kicks in
+    //can be extracted to an external file and inserted as well
+    $(document).ready(function() {
+        $.getJSON("http://html-cors-enabled.cfapps.io/persons", function(data){
+            $("#personChoice").append("<option value=''>Pick A Name</option>");
+            $.each(data, function(i) {
+                $("#persons").append("<li>" + "Data: name=" + data[i].name + " age=" + data[i].age + "</li>");
+                $("#personChoice").append("<option value='" + data[i].age + "'>" + data[i].name + "</option>");
+            });
+        });
+    });
+
+</script>
 </body>
 </html>

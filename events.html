@@ -5,11 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-<p>Creating a list here:</p>
-<ol id="persons"></ol>
 
-<p>Creating a Select Here</p>
+<p>Select A Name</p>
 <select id="personChoice"></select>
+
+<p>You Choose:</p>
+<input id="choice">
+<div style="font-size: smaller" id="notes"></div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script>
@@ -19,9 +21,25 @@
         $.getJSON("http://html-cors-enabled.cfapps.io/persons", function(data){
             $("#personChoice").append("<option value=''>Pick A Name</option>");
             $.each(data, function(i) {
-                $("#persons").append("<li>" + "Data: name=" + data[i].name + " age=" + data[i].age + "</li>");
                 $("#personChoice").append("<option value='" + data[i].age + "'>" + data[i].name + "</option>");
             });
+        });
+        //handle the select event
+        $("#personChoice").on('change',function() {
+            text = "Retirement Actions: ";
+            $("#choice").val(($("#personChoice").val()));
+            if ($("#personChoice").val() > 50) {
+                $("#choice").css("background-color", "green");
+                $("#notes").text(text + "Should have savings - leave them to their fate");
+            }
+            else if ($("#personChoice").val() < 50 && $("#personChoice").val() > 40) {
+                $("#choice").css("background-color", "yellow");
+                $("#notes").text(text + "Should have started saving for retirement - confirm");
+            }
+            else {
+                $("#choice").css("background-color", "red");
+                $("#notes").text(text + "Just starting work - give retirement speech");
+            }
         });
     });
 

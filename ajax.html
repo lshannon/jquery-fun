@@ -2,9 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Title</title>
 </head>
 <body>
-$END$
+
+
+<div id="div1"><h2>This will be text coming from a remote file</h2></div>
+
+<button id="loadbutton">Contents from Text File</button>
+
+
+<div id="div2"><h2>This will be JSON coming from a service (Get)</h2></div>
+
+<button id="getbutton">JSON from REST Service Using Get</button>
+
+
+<div id="div3"><h2>Lets append some values from JSON:</h2></div>
+
+<button id="jsonbutton">JSON from REST Service Using JSON Function</button>
+
+
+<!-- Load JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script>
+    //this makes sure the document loads before jQuery kicks in
+    //can be extracted to an external file and inserted as well
+    $(document).ready(function(){
+        $(document).ready(function(){
+            //this does a load
+            $("#loadbutton").click(function(){
+                $("#div1").load('http://html-cors-enabled.cfapps.io/fragment.txt');
+            });
+            //does the get
+            $("#getbutton").click(function(){
+                $.get("http://html-cors-enabled.cfapps.io/persons", function(data, status){
+                    $("#div2").text(data);
+                });
+            });
+            //does the get
+            $("#jsonbutton").click(function(){
+                $.getJSON("http://html-cors-enabled.cfapps.io/persons", function(data){
+                    $.each(data, function(i, field){
+                        $("#div3").append('result: name=' + data[i].name + " age=" + data[i].age + "</br>");
+                    });
+                });
+            });
+        });
+    });
+</script>
 </body>
 </html>
